@@ -57,9 +57,9 @@ class HighloadWalletV3Contract(HighloadWalletV3ContractBase):
         kwargs["wc"] = 0
         super().__init__(**kwargs)
         if not self.options.get("timeout", None):
-            self.options["timeout"] = 60 * 11
+            self.options["timeout"] = 60 * 30 
         if not self.options.get("wallet_id", None):
-            self.options["wallet_id"] = 0x10AD
+            self.options["wallet_id"] = 698983191
 
     def create_external_message(
             self,
