@@ -65,7 +65,8 @@ class HighloadWalletV3Contract(HighloadWalletV3ContractBase):
             self,
             signing_message: Cell,
             need_deploy: bool,
-            dummy_signature=False
+            dummy_signature=False,
+            state_init=None,
     ) -> Dict[str, Any]:
         """
         Creates an external message with the specified signing message.
@@ -82,7 +83,6 @@ class HighloadWalletV3Contract(HighloadWalletV3ContractBase):
         body.bits.write_bytes(signature)
         body.refs.append(signing_message)
 
-        state_init = None
         code = None
         data = None
 
@@ -168,7 +168,8 @@ class HighloadWalletV3Contract(HighloadWalletV3ContractBase):
             payload: str = "",
             send_mode: int = SendModeEnum.ignore_errors | SendModeEnum.pay_gas_separately,
             need_deploy: bool = False,
-            dummy_signature: bool = False
+            dummy_signature: bool = False,
+            state_init = None,
     ) -> Dict[str, Any]:
         """
         Creates a single transfer message.
@@ -188,7 +189,7 @@ class HighloadWalletV3Contract(HighloadWalletV3ContractBase):
             raise ValueError("create_at must be number >= 0")
         message_to_send = self.create_out_msg(address, amount, payload)
         signing_message = self.create_signing_message(query_id, create_at, send_mode, message_to_send)
-        return self.create_external_message(signing_message, need_deploy, dummy_signature)
+        return self.create_external_message(signing_message, need_deploy, dummy_signature, state_init=state_init)
 
     def create_batch_transfer_message(
             self,
